@@ -129,9 +129,9 @@ const Navbar = () => {
         </li>
 
         {/* Mobile Login and Cart */}
-        <li className="py-4">
+         <li className="py-4">
           <Link to={"/login"}>
-            <button className="px-5 py-2 border-2 border-black rounded-full transition hover:bg-black hover:text-white">
+            <button onClick={() => setMobileMenuOpen(false)} className="px-5 py-2 border-2 border-black rounded-full transition hover:bg-black hover:text-white">
               Login
             </button>
           </Link>
@@ -139,7 +139,7 @@ const Navbar = () => {
 
         <li>
           <Link to={"/cart"}>
-            <div className="relative">
+            <div onClick={() => setMobileMenuOpen(false)} className="relative">
               <img src={cart_icon} alt="Cart" className="w-8 h-8 cursor-pointer" />
               {getTotalCartItem() > 0 && (
                 <span className="absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">

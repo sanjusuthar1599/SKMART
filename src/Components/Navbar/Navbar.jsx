@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../Assets/logo.png";
 import cart_icon from "../Assets/cart_icon.png";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { ShopContext } from "../../Context/ShopContext";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [menu, setmenu] = useState("Shop");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { getTotalCartItem } = useContext(ShopContext)
 
@@ -27,6 +29,11 @@ const Navbar = () => {
       setmenu(""); // If you are on a page like /login, reset the menu
     }
   }, [location]);
+
+  const handlelogout = () => {
+    localStorage.removeItem("token");
+    navigate('/login', { state: { toastMessage: "Logout successful! 🤔" } });
+  };
 
   return (
     <>
@@ -67,13 +74,27 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* Right Section - Login & Cart */}
+        {/* Right Section - Login & Cart */}                     {/* location.pathname==="/login" || */}
         <div className="hidden md:flex items-center gap-5">
-          <Link to="/login">
-            <button className="px-5 py-2 border-2 border-black rounded-full transition hover:bg-black hover:text-white">
-              Login
-            </button>
-          </Link>
+          {
+
+            localStorage.getItem("token") ? <>
+
+
+              <button onClick={handlelogout} className="px-5 py-2 border-2 border-black rounded-full transition hover:bg-black hover:text-white">
+                logout
+              </button>
+
+            </>
+              :
+              <Link to="/login">
+                <button className="px-5 py-2 border-2 border-black rounded-full transition hover:bg-black hover:text-white">
+                  Login
+                </button>
+              </Link>
+          }
+
+
 
           <Link to="/cart">
             <div className="relative">
@@ -98,60 +119,70 @@ const Navbar = () => {
               setMobileMenuOpen(false);
             }}>
             <Link to="/"> Shop </Link>
-          {menu === "Shop" ? <hr className='border-2 border-red-600' /> : <></>}
-        </li>
+            {menu === "Shop" ? <hr className='border-2 border-red-600' /> : <></>}
+          </li>
 
-        <li className="cursor-pointer hover:text-red-600 transition py-2"
-         onClick={() => {
-           setmenu("Men")
-           setMobileMenuOpen(false);
-         }}>
-          <Link to="/mens"> Men </Link>
-          {menu === "Men" ? <hr className='border-2 border-red-600' /> : <></>}
-        </li>
+          <li className="cursor-pointer hover:text-red-600 transition py-2"
+            onClick={() => {
+              setmenu("Men")
+              setMobileMenuOpen(false);
+            }}>
+            <Link to="/mens"> Men </Link>
+            {menu === "Men" ? <hr className='border-2 border-red-600' /> : <></>}
+          </li>
 
-        <li className="cursor-pointer hover:text-red-600 transition py-2"
-         onClick={() => {
-           setmenu("Women")
-           setMobileMenuOpen(false);
-         }}>
-          <Link to="/womens"> Women </Link>
-          {menu === "Women" ? <hr className='border-2 border-red-600' /> : <></>}
-        </li>
+          <li className="cursor-pointer hover:text-red-600 transition py-2"
+            onClick={() => {
+              setmenu("Women")
+              setMobileMenuOpen(false);
+            }}>
+            <Link to="/womens"> Women </Link>
+            {menu === "Women" ? <hr className='border-2 border-red-600' /> : <></>}
+          </li>
 
-        <li className="cursor-pointer hover:text-red-600 transition py-2"
-         onClick={() => {
-           setmenu("Kids")
-           setMobileMenuOpen(false);
-         }}>
-          <Link to="/kids"> Kids </Link>
-          {menu === "Kids" ? <hr className='border-2 border-red-600' /> : <></>}
-        </li>
+          <li className="cursor-pointer hover:text-red-600 transition py-2"
+            onClick={() => {
+              setmenu("Kids")
+              setMobileMenuOpen(false);
+            }}>
+            <Link to="/kids"> Kids </Link>
+            {menu === "Kids" ? <hr className='border-2 border-red-600' /> : <></>}
+          </li>
 
-        {/* Mobile Login and Cart */}
-         <li className="py-4">
-          <Link to={"/login"}>
-            <button onClick={() => setMobileMenuOpen(false)} className="px-5 py-2 border-2 border-black rounded-full transition hover:bg-black hover:text-white">
-              Login
-            </button>
-          </Link>
-        </li>
+          {/* Mobile Login and Cart */}
+          {
 
-        <li>
-          <Link to={"/cart"}>
-            <div onClick={() => setMobileMenuOpen(false)} className="relative">
-              <img src={cart_icon} alt="Cart" className="w-8 h-8 cursor-pointer" />
-              {getTotalCartItem() > 0 && (
-                <span className="absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                  {getTotalCartItem()}
-                </span>
-              )}
-            </div>
-          </Link>
-        </li>
-      </ul>
-    </div >
-      
+            localStorage.getItem("token") ? <>
+
+
+              <button onClick={handlelogout} className="px-5 py-2 border-2 border-black rounded-full transition hover:bg-black hover:text-white">
+                logout
+              </button>
+
+            </>
+              :
+              <Link to="/login">
+                <button className="px-5 py-2 border-2 border-black rounded-full transition hover:bg-black hover:text-white">
+                  Login
+                </button>
+              </Link>
+          }
+
+          <li>
+            <Link to={"/cart"}>
+              <div onClick={() => setMobileMenuOpen(false)} className="relative">
+                <img src={cart_icon} alt="Cart" className="w-8 h-8 cursor-pointer" />
+                {getTotalCartItem() > 0 && (
+                  <span className="absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                    {getTotalCartItem()}
+                  </span>
+                )}
+              </div>
+            </Link>
+          </li>
+        </ul>
+      </div>
+
     </>
   );
 };

@@ -48,11 +48,29 @@ const ShopContextProvider = (props) => {
         }
         return totalItem;
     };
+       // Quantity Incriment ka function
+    const increaseItemQuantity = (id) => {
+        setCartItem((prevCart) => ({
+            ...prevCart,
+            [id]: (prevCart[id] || 0) + 1, // Ensure it doesn't start from NaN
+        }));
+    };
     
+        // Quantity decriment ka function   
+    const decreaseItemQuantity = (id) => {
+        setCartItem((prevCart) => {
+            if (prevCart[id] > 1) {
+                return { ...prevCart, [id]: prevCart[id] - 1 };
+            } else {
+                const updatedCart = { ...prevCart };
+                delete updatedCart[id];
+                return updatedCart;
+            }
+        });
+    };
 
 
-    const contextValue = {getTotalCartItem, getTotalCartAmount, all_product, cartItem, addToCart, removeFromCart}
-
+ const contextValue = {getTotalCartItem, getTotalCartAmount, all_product, cartItem, addToCart, removeFromCart, increaseItemQuantity, decreaseItemQuantity}
     return (
         <ShopContext.Provider value={contextValue}>
             {props.children}

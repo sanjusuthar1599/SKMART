@@ -6,6 +6,15 @@ const ShopCategory = (props) => {
 
   const {all_product} = useContext(ShopContext)
 
+
+    // Options array ko alag se define karein
+  const sortOptions = [
+    { value: "price-low-high", label: "Price: Low to High" },
+    { value: "price-high-low", label: "Price: High to Low" },
+    { value: "latest", label: "Latest" },
+    { value: "oldest", label: "Oldest" },
+  ];
+
   return (
      <div style={{paddingTop: '98px'}} className="p-4  md:p-10">
       <div className="w-full md:p-32 md:pt-0 md:pb-4  ">
@@ -13,13 +22,25 @@ const ShopCategory = (props) => {
       </div>
 
       {/* Info Section */}
+      {/* Info Section */}
       <div className="flex flex-col md:flex-row md:justify-between items-center mt-6 p-8 md:p-32 md:pt-0 md:pb-4 ">
         <p className="text-gray-700 text-sm md:text-lg">
           <span className="font-semibold">Showing 1-12</span> out of 36 products
         </p>
-        <button className="flex items-center px-4 py-2 border rounded-md hover:bg-gray-100 transition mt-4 md:mt-0">
-          Sort by <img src={dropdown_icon} alt="Dropdown" className="w-4 h-4 ml-2" />
-        </button>
+        <select
+          className="flex items-center px-2 py-2 border rounded-md hover:bg-gray-100 transition text-sm"
+          defaultValue=""
+        >
+          <option value="" disabled>
+            Sort by
+          </option>
+
+          {sortOptions.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Product Grid */}

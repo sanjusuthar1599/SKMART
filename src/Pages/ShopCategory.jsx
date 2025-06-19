@@ -22,7 +22,6 @@ const ShopCategory = (props) => {
       </div>
 
       {/* Info Section */}
-      {/* Info Section */}
       <div className="flex flex-col md:flex-row md:justify-between items-center mt-6 p-8 md:p-32 md:pt-0 md:pb-4 ">
         <p className="text-gray-700 text-sm md:text-lg">
           <span className="font-semibold">Showing 1-12</span> out of 36 products
